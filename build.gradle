@@ -88,6 +88,7 @@ ext {
 	mysqlVersion = '8.0.20'
 	pahoMqttClientVersion = '1.2.2'
 	postgresVersion = '42.2.14'
+	pulsarVersion = '2.6.0'
 	reactorVersion = '2020.0.0-M1'
 	resilience4jVersion = '1.5.0'
 	romeToolsVersion = '1.12.2'
@@ -656,6 +657,14 @@ project('spring-integration-mqtt') {
 		api "org.eclipse.paho:org.eclipse.paho.client.mqttv3:$pahoMqttClientVersion"
 
 		testImplementation project(':spring-integration-jmx')
+	}
+}
+
+project('spring-integration-pulsar') {
+	description = 'Spring Integration for Apache Pulsar'
+	dependencies {
+		api project(':spring-integration-core')
+		api "org.apache.pulsar:pulsar-client:$pulsarVersion"
 	}
 }
 
