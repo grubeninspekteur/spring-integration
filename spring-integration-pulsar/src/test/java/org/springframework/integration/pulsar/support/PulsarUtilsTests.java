@@ -30,10 +30,15 @@ public class PulsarUtilsTests {
 	@Test
 	public void testCanonicalizeTopics() {
 		assertThat(PulsarUtils.canonicalizeTopic("foo")).isEqualTo("persistent://public/default/foo");
-		assertThat(PulsarUtils.canonicalizeTopic("gold/silver/bar-topic")).isEqualTo("persistent://gold/silver/bar-topic");
-		assertThat(PulsarUtils.canonicalizeTopic("gold/silver/bar%topic")).isEqualTo("persistent://gold/silver/bar%topic");
-		assertThat(PulsarUtils.canonicalizeTopic("persistent://gold/silver/bar")).isEqualTo("persistent://gold/silver/bar");
-		assertThat(PulsarUtils.canonicalizeTopic("non-persistent://gold/silver/bar")).isEqualTo("non-persistent://gold/silver/bar");
+		assertThat(PulsarUtils.canonicalizeTopic("gold/silver/bar-topic"))
+				.isEqualTo("persistent://gold/silver/bar-topic");
+		assertThat(PulsarUtils.canonicalizeTopic("gold/silver/bar%topic"))
+				.isEqualTo("persistent://gold/silver/bar%topic");
+		assertThat(PulsarUtils.canonicalizeTopic("persistent://gold/silver/bar"))
+				.isEqualTo("persistent://gold/silver/bar");
+		assertThat(PulsarUtils.canonicalizeTopic("non-persistent://gold/silver/bar"))
+				.isEqualTo("non-persistent://gold/silver/bar");
 		assertThat(PulsarUtils.canonicalizeTopic("not/supported")).isEqualTo("not/supported");
+		assertThat(PulsarUtils.canonicalizeTopic("too/many/slashes/topic")).isEqualTo("too/many/slashes/topic");
 	}
 }

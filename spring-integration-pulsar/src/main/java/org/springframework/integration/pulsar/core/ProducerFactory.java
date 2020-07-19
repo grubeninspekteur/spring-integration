@@ -16,15 +16,10 @@
 
 package org.springframework.integration.pulsar.core;
 
-import java.util.Collection;
-import java.util.function.Supplier;
-
 import org.apache.pulsar.client.api.Producer;
 
 /**
- * Stores Pulsar producers on a per-topic basis for reuse. Pulsar producers are thread-safe.
- * <p>
- * Implementations of this cache must be thread-safe.
+ * The strategy to produce a {@link Producer} instance(s).
  *
  * @param <V> the message payload type.
  *
@@ -32,22 +27,18 @@ import org.apache.pulsar.client.api.Producer;
  *
  * @since 5.TODO
  */
-public interface ProducerCache<V> {
+public interface ProducerFactory<V> {
 
 	/**
-	 * Return the cached producer for the given topic. If there is none, use the supplier to create and store a new
-	 * producer.
-	 * <p>
-	 * This operation is atomic.
+	 * Create a producer for the given topic.
 	 * @param topic the topic name.
-	 * @param producerSupplier a supplier to create a new producer in case of a cache miss.
 	 * @return the producer for the given topic.
+	 * @throws org.springframework.integration.pulsar.exception.PulsarException if creation of the producer failed.
 	 */
-	Producer<V> computeIfAbsent(String topic, Supplier<Producer<V>> producerSupplier);
+	Producer<V> createProducer(String topic);
 
 	/**
-	 * Enumerate all producers in the cache at invocation time. Result may be inaccurate if the cache
-	 * @return the producers in the cache.
+	 * Reset any state in the factory, if supported.
 	 */
-	Collection<Producer<V>> getAll();
+	void reset();
 }
